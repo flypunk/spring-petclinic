@@ -1,23 +1,34 @@
-mysql:
-  image: mysql
-  ports:
-    - "3306:3306"
-  volumes:
-    - ./db/sql_data:/var/lib/mysql
-  environment:
-    - MYSQL_ROOT_PASSWORD=root
+version: "3"
+services:
+  mysql:
+    image: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db/sql_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
 
-petclinic1:
-  image: flypunk/petclinic-mysql
-  ports:
-    - "8081:8080"
-  links:
-    - mysql
+  petclinic1:
+    image: flypunk/petclinic-mysql
+    ports:
+      - "8081:8080"
+    links:
+      - mysql
 
-petclinic2:
-  image: flypunk/petclinic-mysql
-  ports:
-    - "8082:8080"
-  links:
-    - mysql
+  petclinic2:
+    image: flypunk/petclinic-mysql
+    ports:
+      - "8082:8080"
+    links:
+      - mysql
 
+  nginx:
+    image: nginx
+    ports:
+     - "80:80"
+    volumes:
+     - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - petclinic1
+      - petclinic2
