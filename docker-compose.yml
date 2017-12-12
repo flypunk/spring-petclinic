@@ -13,15 +13,11 @@ services:
     image: flypunk/petclinic-mysql
     ports:
       - "8081:8080"
-    links:
-      - mysql
 
   petclinic2:
     image: flypunk/petclinic-mysql
     ports:
       - "8082:8080"
-    links:
-      - mysql
 
   nginx:
     image: nginx
