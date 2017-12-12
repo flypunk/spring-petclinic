@@ -2,8 +2,22 @@ mysql:
   image: mysql
   ports:
     - "3306:3306"
+  volumes:
+    - ./db/sql_data:/var/lib/mysql
   environment:
     - MYSQL_ROOT_PASSWORD=root
-    - MYSQL_DATABASE=test
-  volumes:
-    - "./conf.d:/etc/mysql/conf.d:ro"
+
+petclinic1:
+  image: flypunk/petclinic-mysql
+  ports:
+    - "8081:8080"
+  links:
+    - mysql
+
+petclinic2:
+  image: flypunk/petclinic-mysql
+  ports:
+    - "8082:8080"
+  links:
+    - mysql
+
