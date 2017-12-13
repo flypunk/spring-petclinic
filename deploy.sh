@@ -24,4 +24,6 @@ mysql -h 0.0.0.0 -P 3306 -uroot -proot petclinic < src/main/resources/db/mysql/d
 # Stop the db container
 docker stop $container_id
 # Start the cluster
-docker-compose up
+docker-compose up -d
+# Show the logs
+docker-compose logs --follow
