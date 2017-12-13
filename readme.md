@@ -1,16 +1,28 @@
-# Spring PetClinic Sample Application [![Build Status](https://travis-ci.org/spring-projects/spring-petclinic.png?branch=master)](https://travis-ci.org/spring-projects/spring-petclinic/)
+# Spring PetClinic Sample Application - [Docker Compose](https://docs.docker.com/compose/overview/) setup
 
 ## Understanding the Spring Petclinic application with a few diagrams
 <a href="https://speakerdeck.com/michaelisvy/spring-petclinic-sample-application">See the presentation here</a>
 
-## Running petclinic locally
+## Running petclinic locally - first time
+We are using [docker-compose.yml](https://github.com/flypunk/spring-petclinic/blob/master/docker-compose.yml) file to start petclinic in 4 containers:  
+2 copies of the app, database and load balancer  
+You have to have the latest versions of [docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/) and [docker-compose](https://docs.docker.com/compose/install/#install-compose)
 ```
-	git clone https://github.com/spring-projects/spring-petclinic.git
+	git clone git@github.com:flypunk/spring-petclinic.git
 	cd spring-petclinic
-	./mvnw spring-boot:run
+	sudo ./deploy.sh
 ```
+This will build the docker image and compile the app  
+Wait for the logs to stop  
+You can then access petclinic here: http://localhost
 
-You can then access petclinic here: http://localhost:8080/
+## Running petclinic after initial install
+
+Start cluster - `sudo docker-compose start`  
+Stop cluster - `sudo docker-compose stop`  
+Get logs - `sudo docker-compose logs --follow`  
+
+Read docker-compose [documentation](https://docs.docker.com/compose/reference/) for more info and usage examples.
 
 <img width="1042" alt="petclinic-screenshot" src="https://cloud.githubusercontent.com/assets/838318/19727082/2aee6d6c-9b8e-11e6-81fe-e889a5ddfded.png">
 
@@ -20,15 +32,8 @@ Our issue tracker is available here: https://github.com/spring-projects/spring-p
 
 ## Database configuration
 
-In its default configuration, Petclinic uses an in-memory database (HSQLDB) which
-gets populated at startup with data. A similar setup is provided for MySql in case a persistent database configuration is needed.
-Note that whenever the database type is changed, the data-access.properties file needs to be updated and the mysql-connector-java artifact from the pom.xml needs to be uncommented.
-
-You could start a MySql database with docker:
-
-```
-docker run -e MYSQL_ROOT_PASSWORD=petclinic -e MYSQL_DATABASE=petclinic -p 3306:3306 mysql:5.7.8
-```
+In this configuration Petclinic uses mysql for data persistensy  
+Mysql runs in a docker container and uses `db/sql_data` as its data directory
 
 ## Working with Petclinic in Eclipse/STS
 
@@ -83,7 +88,6 @@ there.
 | [spring-petclinic-reactjs][]       | ReactJS (with TypeScript) and Spring Boot |
 | [spring-petclinic-graphql][]       | GraphQL version based on React Appolo, TypeScript and GraphQL Spring boot starter |
 | [spring-petclinic-kotlin][]        | Kotlin version of [spring-petclinic][] |
-| [spring-petclinic-rest][]          | Backend REST API |
 
 
 ## Interaction with other open source projects
